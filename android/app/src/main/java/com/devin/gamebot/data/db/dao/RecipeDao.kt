@@ -46,4 +46,16 @@ interface RecipeDao {
         deleteStepsForRecipe(recipeId)
         insertSteps(steps.map { it.copy(recipeId = recipeId) })
     }
+
+    /**
+     * Inserts a recipe and its steps atomically. Both rows are visible together
+     * or not at all — this avoids leaving a recipe row with no steps if the
+     * second insert fails.
+     */
+    @Transaction
+    suspend fun insertRecipeWithSteps(recipe: Recipe, steps: List<RecipeStep>): Long {
+        val id = insertRecipe(recipe)
+        insertSteps(steps.map { it.copy(recipeId = id) })
+        return id
+    }
 }

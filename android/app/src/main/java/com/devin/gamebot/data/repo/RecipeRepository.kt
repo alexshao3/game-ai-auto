@@ -18,17 +18,16 @@ class RecipeRepository(private val db: AppDatabase) {
         db.recipeDao().getStepsForRecipe(recipeId)
 
     /** Inserts a recipe + its steps in one transaction. Returns the new recipeId. */
-    suspend fun insertRecipeWithSteps(recipe: Recipe, steps: List<RecipeStep>): Long {
-        val id = db.recipeDao().insertRecipe(recipe)
-        db.recipeDao().insertSteps(steps.map { it.copy(recipeId = id) })
-        return id
-    }
+    suspend fun insertRecipeWithSteps(recipe: Recipe, steps: List<RecipeStep>): Long =
+        db.recipeDao().insertRecipeWithSteps(recipe, steps)
 
     suspend fun replaceSteps(recipeId: Long, steps: List<RecipeStep>) {
         db.recipeDao().replaceRecipeSteps(recipeId, steps)
-        db.recipeDao().updateRecipe(
-            db.recipeDao().findById(recipeId)!!.copy(updatedAtMs = System.currentTimeMillis())
-        )
+        // The recipe may have been deleted concurrently; in that case there is
+        // nothing left to bump and we silently skip the timestamp update.
+        db.recipeDao().findById(recipeId)?.let { recipe ->
+            db.recipeDao().updateRecipe(recipe.copy(updatedAtMs = System.currentTimeMillis()))
+        }
     }
 
     suspend fun rename(recipe: Recipe, newName: String) {
