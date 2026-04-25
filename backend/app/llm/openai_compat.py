@@ -73,6 +73,10 @@ class OpenAICompatProvider(VisionProvider):
 
 def _extract_text(response: dict[str, Any]) -> str:
     try:
-        return response["choices"][0]["message"]["content"].strip()
+        text = response["choices"][0]["message"]["content"]
     except (KeyError, IndexError, TypeError) as exc:
         raise LLMError(f"openai: unexpected response shape: {response}") from exc
+    if text is None:
+        # Happens for content-policy violations and function-call responses.
+        raise LLMError(f"openai: content is null in response: {response}")
+    return text.strip()

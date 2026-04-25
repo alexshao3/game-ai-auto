@@ -79,6 +79,17 @@ def _down_sample(items: list[VisionImage], k: int) -> list[VisionImage]:
     return [items[round(i * step)] for i in range(k)]
 
 
+def _safe_int(value: Any, default: int) -> int:
+    """Coerce model-supplied ordinals to int, falling back when the model
+    emits ``null``, a non-numeric string, or anything else weird."""
+    if value is None:
+        return default
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
 def _coerce_recipe_json(text: str, *, fallback_name: str) -> dict[str, Any]:
     """Be liberal in what we accept from the model.
 
@@ -125,7 +136,7 @@ def _coerce_recipe_json(text: str, *, fallback_name: str) -> dict[str, Any]:
             continue
         steps.append(
             {
-                "ordinal": int(step.get("ordinal", idx)),
+                "ordinal": _safe_int(step.get("ordinal"), idx),
                 "intent": intent,
                 "expectAfter": step.get("expectAfter") or step.get("expect_after"),
                 "notes": step.get("notes"),
