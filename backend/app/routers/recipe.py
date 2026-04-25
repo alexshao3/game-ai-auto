@@ -99,7 +99,13 @@ def _coerce_recipe_json(text: str, *, fallback_name: str) -> dict[str, Any]:
                 status_code=502,
                 detail=f"Model did not return JSON: {cleaned[:300]}",
             ) from exc
-        obj = json.loads(m.group(0))
+        try:
+            obj = json.loads(m.group(0))
+        except json.JSONDecodeError as exc2:
+            raise HTTPException(
+                status_code=502,
+                detail=f"Model did not return valid JSON: {cleaned[:300]}",
+            ) from exc2
 
     if not isinstance(obj, dict):
         raise HTTPException(status_code=502, detail="Model JSON not an object")

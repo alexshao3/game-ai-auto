@@ -242,6 +242,11 @@ class RecorderService : Service() {
     }
 
     override fun onDestroy() {
+        // Release MediaProjection / VirtualDisplay / ImageReader / bitmaps in
+        // case we're being torn down by the system without going through the
+        // ACTION_STOP path, otherwise the screen-cast indicator stays on and
+        // GPU resources leak.
+        stopRecordingAndSelf()
         scope.cancel()
         super.onDestroy()
     }

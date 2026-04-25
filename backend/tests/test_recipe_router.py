@@ -109,6 +109,18 @@ def test_recipe_generate_rejects_empty_steps() -> None:
     assert resp.status_code == 502
 
 
+def test_recipe_generate_invalid_json_blob_returns_502() -> None:
+    # Model emits prose containing a {...} blob that is itself not valid JSON.
+    fake = FakeProvider(response_text='Here is your recipe: {not valid json}')
+    _override(fake)
+    client = TestClient(app)
+    files = [("frames", ("f1.jpg", _VALID_JPEG, "image/jpeg"))]
+    resp = client.post(
+        "/v1/recipe/generate", files=files, data={"session_name": "X"}
+    )
+    assert resp.status_code == 502
+
+
 def test_recipe_generate_downsamples() -> None:
     fake = FakeProvider(
         response_text='{"name":"X","steps":[{"ordinal":0,"intent":"a"}]}'
