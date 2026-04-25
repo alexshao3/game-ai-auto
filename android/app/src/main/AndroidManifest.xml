@@ -35,6 +35,11 @@
             android:foregroundServiceType="mediaProjection" />
 
         <service
+            android:name=".service.RecorderService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+
+        <service
             android:name=".service.BotAccessibilityService"
             android:exported="true"
             android:label="@string/accessibility_service_label"

@@ -26,6 +26,9 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
+# B008 disallows function calls in default args; FastAPI's File(...)/Form(...)
+# pattern is the canonical idiom for it, so we silence the rule.
+ignore = ["B008"]
 
 [build-system]
 requires = ["setuptools>=68"]
