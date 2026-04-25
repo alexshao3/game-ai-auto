@@ -1,0 +1,56 @@
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+android/.idea/
+android/*.iml
+android/.kotlin/
+android/.cxx/
+
+# Gradle
+.gradle/
+build/
+
+# Java/Kotlin
+*.class
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# Python
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.venv/
+backend/venv/
+backend/*.egg-info/
+backend/.pytest_cache/
+backend/.mypy_cache/
+backend/.ruff_cache/
+
+# Env / secrets
+.env
+.env.local
+backend/.env
+*.keystore
+!debug.keystore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+*.apk
+!debug-builds/*.apk
+*.aab
+
+# Local data
+recordings/
+screenshots/
+local-data/
