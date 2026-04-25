@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AI Game Bot</string>
+    <string name="accessibility_service_label">AI Game Bot Gestures</string>
+    <string name="accessibility_service_description">
+        Cho phép bot mô phỏng tap/swipe để tự động hóa các tác vụ game.
+        Chỉ hoạt động khi bạn chủ động bật bot. Có thể tắt bất kỳ lúc nào.
+    </string>
+    <string name="capture_notification_channel">Capture Service</string>
+    <string name="capture_notification_title">AI Game Bot đang chạy</string>
+    <string name="capture_notification_text">Đang capture màn hình. Bấm để dừng.</string>
+</resources>
