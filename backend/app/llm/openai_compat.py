@@ -52,6 +52,9 @@ class OpenAICompatProvider(VisionProvider):
             "model": self.model_id,
             "messages": [{"role": "user", "content": content}],
             "temperature": 0.2,
+            # Many OpenAI-compatible proxies stream by default; we always
+            # want a single JSON response so we can json-decode it directly.
+            "stream": False,
         }
         if expect_json:
             payload["response_format"] = {"type": "json_object"}
