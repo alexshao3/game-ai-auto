@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -14,7 +15,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "0.1.0-phase0"
+        versionName = "0.2.0-phase1"
 
         // Override at build time:  ./gradlew assembleDebug -PbackendUrl=https://your-backend
         val backendUrl = (project.findProperty("backendUrl") as String?)
@@ -62,6 +63,12 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.ktor.client.core)

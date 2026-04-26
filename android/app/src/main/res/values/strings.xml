@@ -9,4 +9,5 @@
     <string name="capture_notification_channel">Capture Service</string>
     <string name="capture_notification_title">AI Game Bot đang chạy</string>
     <string name="capture_notification_text">Đang capture màn hình. Bấm để dừng.</string>
+    <string name="recipe_list_empty">Chưa có recipe nào. Bấm + để bắt đầu record.</string>
 </resources>
